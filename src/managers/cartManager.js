@@ -1,6 +1,7 @@
 import fs from "fs"
 import ProductManager from './productManager.js';
 const PATH = "./cart.json"
+const productManager =new ProductManager()
 
 class CartManager{
     async getCart(){
@@ -52,44 +53,28 @@ class CartManager{
         carts = []
         await fs.promises.writeFile(PATH,JSON.stringify(carts,null,"\t"))
     }
-    async updateCart(pid,newInfo){
-        try {
-            const carts = await this.getCart()
-            let updateIndex =carts.findIndex(cart => cart.id == pid)
-            console.log(updateIndex)
 
-            if (updateIndex <=0 ) {
-                carts[updateIndex] = { ...carts[updateIndex], ...newInfo }
-                
-                console.log(carts)
-            } else {
-                return {
-                    message:" carrito no encontrado"
-                }
-            }
-            await fs.promises.writeFile(PATH,JSON.stringify(carts,null,"\t"))
-        } catch (error) {
-            console.log(error)
-        }
-    }
     async getCartById(cid){
         try {
             const carts = await this.getCart()
-            const cart = carts.find(c => c.id ==cid)
-            console.log(cart)
+            const cart = carts.find(cart => cart.id ==cid)
+            return cart
         } catch (error) {
             console.log(error)
         }
     }
     async addToCart(cid,pid){
         try {
-            const product = await this.getProductById(pid)
-            const carts = this.getCart()
+            const cart = await this.getCartById(cid)
+		    const product = await productManager.getProductById(pid)
+		    cart.products.push(product)
+            fs.promises.writeFile(PATH,JSON.stringify(cart,null,"\t"))
+            return cart
             
-
         } catch (error) {
             console.log(error)
         }
     }
+
 }
 export default CartManager

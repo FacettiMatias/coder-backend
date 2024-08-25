@@ -30,7 +30,7 @@ class ProductManager{
     async createProduct (product){
         try {
             const products =  await this.getProducts()
-            console.log(products)
+            
             if (products.length === 0) {
                 product.id = 1 
             }

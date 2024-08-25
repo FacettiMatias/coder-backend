@@ -1,6 +1,9 @@
 import { Router } from "express";
+import fs from "fs"
 
 import CartManager from "../managers/cartManager.js";
+import ProductManager from "../managers/productManager.js";
+const productManager = new ProductManager()
 
 const cartRouter = Router();
 const cartManager = new CartManager();
@@ -20,9 +23,9 @@ cartRouter.get("/", async (req, res) => {
 });
 cartRouter.get("/:cid" , async (req,res) =>{
 	try {
-		const cid =req.params;
+		const {cid} = req.params;
 		const cart = await cartManager.getCartById(cid);
-		return cart
+		res.send(cart)
 		
 		
 	} catch (error) {
@@ -30,13 +33,6 @@ cartRouter.get("/:cid" , async (req,res) =>{
 	}
 })
 
-cartRouter.put ("/:cid" ,async (req,res) =>{
-	try {
-		const cid = req.params
-	} catch (error) {
-		console.log(error)
-	}
-})
 cartRouter.post("/", async (req, res) => {
 	try {
         const carts = await cartManager.getCart()
@@ -65,13 +61,23 @@ cartRouter.delete("/", async (req, res) => {
 });
 
 cartRouter.delete("/:cid" ,async (req,res) =>{
-	const cid = req.params;
-
+	const {cid} = req.params;
 	try {
 		cartManager.deleteCartById(cid)
 		res.send("el carrito fue borrado");
 	} catch (error) {
 		console.log(error)
+	}
+})
+cartRouter.put ("/:cid/:pid" ,async (req,res) =>{
+	const {cid,pid} = req.params
+	try {
+		await cartManager.addToCart(cid,pid)
+		res.send("el producto fue cargado con exito al carrito")
+
+
+	} catch (error) {
+		
 	}
 })
 

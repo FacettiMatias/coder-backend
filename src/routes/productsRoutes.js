@@ -65,12 +65,12 @@ productRouter.put("/:pid", async (req, res) => {
 });
 
 productRouter.delete("/", async (req, res) => {
-	const deleteAllProducts = await productManager.deleteAllProducts();
+	 await productManager.deleteAllProducts();
 	res.send("el producto fue eliminado con exito");
 });
 
 productRouter.delete("/:pid", async (req, res) => {
-	const pid = req.params.pid;
+	const {pid} = req.params;
 
 	const deleteProduct = await productManager.deleteProductById(pid);
 
