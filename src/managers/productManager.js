@@ -55,6 +55,15 @@ class ProductManager{
         
 
     }
+    async deleteProductByName(name){
+        
+        const products =await this.getProducts();
+        const deleteIndex = products.findIndex(product => product.title == name)
+        const deleteProduct = products.splice(deleteIndex,1);
+
+        await fs.promises.writeFile(PATH,JSON.stringify(products,null,"\t"))
+        return deleteProduct
+    }
     async deleteAllProducts(){
         let products =await this.getProducts()
         products = []

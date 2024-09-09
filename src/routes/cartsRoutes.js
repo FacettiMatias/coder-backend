@@ -3,7 +3,7 @@ import fs from "fs"
 
 import CartManager from "../managers/cartManager.js";
 import ProductManager from "../managers/productManager.js";
-const productManager = new ProductManager()
+
 
 const cartRouter = Router();
 const cartManager = new CartManager();
