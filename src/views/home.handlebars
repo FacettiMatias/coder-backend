@@ -1,8 +1,29 @@
 <div>
     <h1>la lista de productos es:</h1>
-    
-            <h2>{{stringified}}</h2>
+    {{#each result}}
+                <div>
+                    <h2>{{title}}</h2>
+                    <b>precio:{{price}}</b>
+                    <button>agregar al carrito</button>
+                </div>
+            {{/each}}
+            
+            
+            {{#each products.docs}}
+                <div>
+                    <h2>{{title}}</h2>
+                    <b>precio:{{price}}</b>
+                    <button id="addToCart">agregar al carrito</button>
+                </div>
+            {{/each}}
+
+            <div>
+                
+            </div>
+
+            <button id="prev-button" data-page="{{products.prevPage}}">prev page</button> {{products.page}} <button id="next-button" data-page="{{products.nextPage}}">siguiente pagina</button>
         
 </ul>
 </div>
-<script src="/socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="/js/productsHandlebars.js"></script>
